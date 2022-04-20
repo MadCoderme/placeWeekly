@@ -51,14 +51,7 @@ export default function App() {
   ];
 
   const firebaseConfig = {
-    apiKey: "AIzaSyDn34T2mW3peL34Ca94uLyY0l0tdVDZWT0",
-    authDomain: "place-e2c7a.firebaseapp.com",
-    databaseURL: "https://place-e2c7a-default-rtdb.firebaseio.com",
-    projectId: "place-e2c7a",
-    storageBucket: "place-e2c7a.appspot.com",
-    messagingSenderId: "863028977398",
-    appId: "1:863028977398:web:045e24db656292403416d7",
-    measurementId: "G-BEP2WT0C4F"
+    //firebase project config obj
   };
 
   initializeApp(firebaseConfig);
