@@ -1,0 +1,96 @@
+.App {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  box-shadow: 0px -5px 20px 5px gray inset;
+}
+
+#canvas1 {
+  image-rendering: optimizeSpeed;
+  image-rendering: optimizeContrast;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+.colorchooser {
+  -webkit-box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.22);
+  box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.12);
+}
+.colorOption {
+  width: 30px;
+  height: 30px;
+  border: 0px;
+  margin: 10px;
+}
+.colorOption:hover {
+  opacity: 0.8;
+}
+.colorOption:active {
+  opacity: 0.5;
+}
+
+.peoplePlaceholder {
+  position: absolute;
+  top: 5vh;
+  right: 5%;
+  z-index: 20;
+  background-color: #ff4500;
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 0px solid;
+  border-radius: 30px;
+}
+
+.colorbtn:hover {
+  background-color: #cdcdcd;
+}
+
+.optionsbtn:hover {
+  background: #f05b25 !important;
+}
+
+.placeTilebtn {
+  position: absolute;
+  bottom: 20px;
+  align-self: center;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  background-color: white;
+  border: 0px solid;
+  border-radius: 20px;
+  z-index: 10;
+  font-size: 17px;
+  cursor: pointer;
+  box-shadow: 0px 10px 15px 5px rgba(0, 0, 0, 0.3);
+}
+
+.TileCoordbtn {
+  position: absolute;
+  top: 15px;
+  align-self: center;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  background-color: white;
+  border: 0px solid;
+  border-radius: 20px;
+  z-index: 10;
+  font-size: 17px;
+  box-shadow: 0px 10px 15px 1px rgba(0, 0, 0, 0.3);
+}
