@@ -51,8 +51,16 @@ export default function App() {
   ];
 
   const firebaseConfig = {
-    //your firebase config data
+    apiKey: "AIzaSyDn34T2mW3peL34Ca94uLyY0l0tdVDZWT0",
+    authDomain: "place-e2c7a.firebaseapp.com",
+    databaseURL: "https://place-e2c7a-default-rtdb.firebaseio.com",
+    projectId: "place-e2c7a",
+    storageBucket: "place-e2c7a.appspot.com",
+    messagingSenderId: "863028977398",
+    appId: "1:863028977398:web:045e24db656292403416d7",
+    measurementId: "G-BEP2WT0C4F"
   };
+
   initializeApp(firebaseConfig);
 
   useEffect(() => {
@@ -130,7 +138,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    if (!pixels[activePixel]) {
+    if (!pixels && !pixels[activePixel]) {
       pixels[activePixel] = { color: "white", temp: true };
     }
     updateTile(
@@ -143,8 +151,8 @@ export default function App() {
     if (data) {
       if (data.color !== "white" || data.color !== "#fff") {
         var ctx = document.getElementById("canvas1").getContext("2d");
-        var y = parseInt(index / 1000);
-        var x = index - y * 1000;
+        var y = parseInt(index / 300);
+        var x = index - y * 300;
 
         if (ctx.fillStyle !== data.color) {
           ctx.fillStyle = data.color ? data.color : "white";
@@ -156,15 +164,18 @@ export default function App() {
   }
 
   function removeColor(pixel) {
-    updateTile(
-      pixels[pixel] ? pixels[pixel] : { user: "", color: "white" },
-      pixel
-    );
+    if (pixel) {
+      updateTile(
+        pixels[pixel] ? pixels[pixel] : { user: "", color: "white" },
+        pixel
+      );
+    }
   }
 
   function detectClick(e) {
-    const c = document.getElementById("canvas1");
+    document.getElementById("clickSound").play();
 
+    const c = document.getElementById("canvas1");
     var boundingRect = e.target.getBoundingClientRect();
     var ex = e.clientX - boundingRect.left;
     var ey = e.clientY - boundingRect.top;
@@ -174,8 +185,8 @@ export default function App() {
     var xPixel = Math.floor(x);
     var yPixel = Math.floor(y);
 
-    let pixelIndex = yPixel * 1000 + xPixel;
-    console.log(pixelIndex);
+    let pixelIndex = yPixel * 300 + xPixel;
+    console.log(xPixel, yPixel);
 
     if (pixels[activePixel]) {
       if (pixels[activePixel].color !== chosenColor) {
@@ -185,7 +196,7 @@ export default function App() {
     setActivePixel(pixelIndex);
     chooseColor(
       pixelIndex,
-      pixels[pixelIndex] ? pixels[pixelIndex] : { color: "white" }
+      pixels && pixels[pixelIndex] ? pixels[pixelIndex] : { color: "white" }
     );
   }
 
@@ -223,26 +234,28 @@ export default function App() {
         set(ref(db, "/pixels/" + activePixel), {
           color: chosenColor,
           user: localStorage.getItem("userName"),
-          totalEdits: increment(1)
+          totalEdits: increment(1),
+          time: +new Date()
         });
       } else {
         const updates = {};
         updates["/pixels/" + activePixel] = {
           color: chosenColor,
           user: localStorage.getItem("userName"),
-          totalEdits: increment(1)
+          totalEdits: increment(1),
+          time: +new Date()
         };
 
         update(ref(db), updates);
       }
     });
-
+    document.getElementById("placeSound").play();
     localStorage.setItem("lastTime", (+new Date()).toString());
     setColorPallate(false);
     setPlacing(false);
   }
 
-  return !isClose ? (
+  return (
     <div
       style={{
         backgroundColor: "#cdcdcd",
@@ -251,7 +264,14 @@ export default function App() {
       className="container"
       id="container"
     >
-      <TransformWrapper limitToBounds={false} minScale={0.5} maxScale={15}>
+      <TransformWrapper
+        limitToBounds={false}
+        minScale={1}
+        maxScale={15}
+        initialScale={5}
+        initialPositionX={100}
+        initialPositionY={100}
+      >
         <TransformComponent>
           <div
             style={{
@@ -263,8 +283,8 @@ export default function App() {
           >
             <canvas
               id="canvas1"
-              height="1000"
-              width="1000"
+              height="300"
+              width="300"
               style={{
                 cursor: "crosshair",
                 backgroundColor: "white"
@@ -362,6 +382,14 @@ export default function App() {
           </div>
         </div>
       ) : null}
+      <audio
+        src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3"
+        id="clickSound"
+      />
+      <audio
+        src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3"
+        id="placeSound"
+      />
 
       <div className="peoplePlaceholder">
         <p
@@ -376,12 +404,13 @@ export default function App() {
       {colorPallate ? (
         <p className="TileCoordbtn">
           {activePixel -
-            parseInt(activePixel / 1000) * 1000 +
+            parseInt(activePixel / 300) * 300 +
+            1 +
             ", " +
-            parseInt(activePixel / 1000)}
+            (parseInt(activePixel / 300) + 1)}
         </p>
       ) : null}
-      {colorPallate ? null : (
+      {colorPallate || isClose ? null : (
         <button
           style={{
             backgroundColor: isPlacing ? "gray" : "#ff4500",
@@ -391,7 +420,7 @@ export default function App() {
           onClick={() => {
             setPlacing((prev) => !prev);
             setColorPallate(false);
-            activePixel && removeColor(activePixel);
+            activePixel > -1 ? removeColor(activePixel) : null;
             setActivePixel(-1);
           }}
         >
@@ -467,47 +496,6 @@ export default function App() {
           </button>
         </div>
       ) : null}
-    </div>
-  ) : (
-    <div
-      style={{
-        backgroundColor: "#041C32",
-        overflow: "hidden",
-        height: "98vh",
-        width: "95vw",
-        justifyContent: "center",
-        alignItems: "center",
-        alignContent: "center",
-        verticalAlign: "center"
-      }}
-    >
-      <h1
-        style={{
-          color: "white",
-          marginTop: 30,
-          textAlign: "center",
-          fontWeight: "bold"
-        }}
-      >
-        PlaceWeekly has Ended!
-      </h1>
-      <h3
-        style={{
-          color: "white",
-          textAlign: "center"
-        }}
-      >
-        Join{" "}
-        <a
-          href="https://reddit.com/r/placeWeekly"
-          style={{
-            textDecoration: "none"
-          }}
-        >
-          r/placeWeekly
-        </a>{" "}
-        to know about next Place
-      </h3>
     </div>
   );
 }
