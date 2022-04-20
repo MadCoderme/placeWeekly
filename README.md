@@ -26,6 +26,11 @@ Detecting user click and updating specific pixel in canvas requires some simple 
 
 # Contribution
 
-If you want to contribute to this project, please open a PR first. You can join r/placeWeekly to discuss and stay tuned about this project.
+If you want to contribute to this project, please open a PR first. You can join r/placeWeekly to discuss and stay tuned about this project. 
+
+# Conclusion
+Please note that the project requires some clean up, if you want to use it now, you need to fix that yourself.
 
 Thanks!
+
+<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="abrarFairuj" data-color="#FFDD00" data-emoji=""  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
