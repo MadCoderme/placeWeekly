@@ -2,7 +2,7 @@
 
 PlaceWeekly is a clone of Original Place with all the features packed. It has 1000x1000 Canvas without performance drop and realtime collaboration. We host PlaceWeekly once in a week for 24 hours which is available for everyone.
 
-Join Placeweekly: https://placeweekly.netilify.app
+Join Placeweekly: https://placeweekly.netlify.app
 
 # How does this work?
 
